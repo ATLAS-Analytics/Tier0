@@ -2,14 +2,13 @@ import os
 import sys
 import cx_Oracle
 import estools
-import conversions
 
-if not 'JOB_ORACLE_CONNECTION_STRING' in os.environ:
-    print('Connection to ORACLE DB not configured. Please set variable: JOB_ORACLE_CONNECTION_STRING ')
+if not 'T0_ORACLE_CONNECTION_STRING' in os.environ:
+    print('Connection to ORACLE DB not configured. Please set variable: T0_ORACLE_CONNECTION_STRING ')
     sys.exit(-1)
 
-if not 'JOB_ORACLE_PASS' in os.environ or not 'JOB_ORACLE_USER' in os.environ:
-    print('Please set variables:JOB_ORACLE_USER and JOB_ORACLE_PASS.')
+if not 'T0_ORACLE_PASS' in os.environ or not 'T0_ORACLE_USER' in os.environ:
+    print('Please set variables:T0_ORACLE_USER and T0_ORACLE_PASS.')
     sys.exit(-1)
 
 if not len(sys.argv) == 3:
@@ -106,12 +105,12 @@ for row in cursor:
     if doc['statechangetime']:
         doc['statechangetime'] = str(doc['statechangetime']).replace(' ', 'T')
 
-    (doc['dbTime'], doc['dbData'], doc['workDirSize'], doc['jobmetrics']) = conversions.splitJobmetrics(doc['jobmetrics'])
-    (doc['wall_time'], doc['cpu_eff'], doc['queue_time']) = conversions.deriveDurationAndCPUeff(
-        doc['creationtime'], doc['starttime'], doc['endtime'], doc['cpuconsumptiontime'])
-    (doc['timeGetJob'], doc['timeStageIn'], doc['timeExe'], doc['timeStageOut'],
-     doc['timeSetup']) = conversions.deriveTimes(doc['pilottiming'])
-    doc["_index"] = "jobs_archive_" + doc['creationtime'].split('T')[0]
+    # (doc['dbTime'], doc['dbData'], doc['workDirSize'], doc['jobmetrics']) = conversions.splitJobmetrics(doc['jobmetrics'])
+    # (doc['wall_time'], doc['cpu_eff'], doc['queue_time']) = conversions.deriveDurationAndCPUeff(
+        # doc['creationtime'], doc['starttime'], doc['endtime'], doc['cpuconsumptiontime'])
+    # (doc['timeGetJob'], doc['timeStageIn'], doc['timeExe'], doc['timeStageOut'],
+    #  doc['timeSetup']) = conversions.deriveTimes(doc['pilottiming'])
+    doc["_index"] = "tier0_write"
     doc["_id"] = doc['pandaid']
 
     data.append(doc)
