@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: t0manual
+spec:
+  containers:
+    - name: t0-manual
+      image: atlasanalyticsservice/tier0:latest
+      env:
+        - name: T0_ORACLE_USER
+          valueFrom:
+            secretKeyRef:
+              name: oracle-t0-secret
+              key: t0_oracle_user
+        - name: T0_ORACLE_PASS
+          valueFrom:
+            secretKeyRef:
+              name: oracle-t0-secret
+              key: t0_oracle_pass
+        - name: T0_ORACLE_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: oracle-t0-secret
+              key: t0_oracle_connection_string
+        - name: ES_USER
+          valueFrom:
+            secretKeyRef:
+              name: es-auth-t0
+              key: es_user
+        - name: ES_PASS
+          valueFrom:
+            secretKeyRef:
+              name: es-auth-t0
+              key: es_pass
+        - name: ES_HOST
+          valueFrom:
+            secretKeyRef:
+              name: es-auth-t0
+              key: es_host
+  restartPolicy: Never
