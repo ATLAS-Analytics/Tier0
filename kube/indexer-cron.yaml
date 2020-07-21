@@ -33,16 +33,16 @@ spec:
                 - name: ES_USER
                   valueFrom:
                     secretKeyRef:
-                      name: es-auth-fts
+                      name: es-auth-t0
                       key: es_user
                 - name: ES_PASS
                   valueFrom:
                     secretKeyRef:
-                      name: es-auth-fts
+                      name: es-auth-t0
                       key: es_pass
                 - name: ES_HOST
                   valueFrom:
                     secretKeyRef:
-                      name: es-auth-fts
+                      name: es-auth-t0
                       key: es_host
           restartPolicy: Never

@@ -20,9 +20,9 @@ end_date = sys.argv[2]
 
 print('Start date:', start_date, '\t End date:', end_date)
 
-user = os.environ['JOB_ORACLE_USER']
-passw = os.environ['JOB_ORACLE_PASS']
-conn = os.environ['JOB_ORACLE_CONNECTION_STRING'].replace('jdbc:oracle:thin:@//', '')
+user = os.environ['T0_ORACLE_USER']
+passw = os.environ['T0_ORACLE_PASS']
+conn = os.environ['T0_ORACLE_CONNECTION_STRING'].replace('jdbc:oracle:thin:@//', '')
 con = cx_Oracle.connect(user + '/' + passw + '@' + conn)
 print(con.version)
 
