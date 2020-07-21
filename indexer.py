@@ -28,58 +28,32 @@ print(con.version)
 
 
 cursor = con.cursor()
-not_stored_anymore = ['MAXCPUUNIT', 'MAXDISKUNIT', 'IPCONNECTIVITY', 'MINRAMUNIT', 'PRODDBUPDATETIME', 'NINPUTFILES']
-print('omitting columns:', not_stored_anymore)
+
+
 
 
 columns = [
-    'PANDAID', 'JOBDEFINITIONID', 'SCHEDULERID', 'PILOTID', 'CREATIONTIME', 'CREATIONHOST', 'MODIFICATIONTIME',
-    'MODIFICATIONHOST', 'ATLASRELEASE', 'TRANSFORMATION', 'HOMEPACKAGE', 'PRODSERIESLABEL', 'PRODSOURCELABEL',
-    'PRODUSERID', 'ASSIGNEDPRIORITY', 'CURRENTPRIORITY', 'ATTEMPTNR', 'MAXATTEMPT', 'JOBSTATUS', 'JOBNAME',
-    'MAXCPUCOUNT', 'MAXDISKCOUNT', 'MINRAMCOUNT',
-    'STARTTIME', 'ENDTIME', 'CPUCONSUMPTIONTIME', 'CPUCONSUMPTIONUNIT', 'COMMANDTOPILOT', 'TRANSEXITCODE',
-    'PILOTERRORCODE', 'PILOTERRORDIAG', 'EXEERRORCODE', 'EXEERRORDIAG', 'SUPERRORCODE', 'SUPERRORDIAG',
-    'DDMERRORCODE', 'DDMERRORDIAG', 'BROKERAGEERRORCODE', 'BROKERAGEERRORDIAG', 'JOBDISPATCHERERRORCODE',
-    'JOBDISPATCHERERRORDIAG', 'TASKBUFFERERRORCODE', 'TASKBUFFERERRORDIAG', 'COMPUTINGSITE', 'COMPUTINGELEMENT',
-    'PRODDBLOCK', 'DISPATCHDBLOCK', 'DESTINATIONDBLOCK', 'DESTINATIONSE', 'NEVENTS', 'GRID', 'CLOUD', 'CPUCONVERSION',
-    'SOURCESITE', 'DESTINATIONSITE', 'TRANSFERTYPE', 'TASKID', 'CMTCONFIG', 'STATECHANGETIME',
-    'LOCKEDBY', 'RELOCATIONFLAG', 'JOBEXECUTIONID', 'VO', 'WORKINGGROUP', 'PROCESSINGTYPE', 'PRODUSERNAME',
-    'COUNTRYGROUP', 'BATCHID', 'PARENTID', 'SPECIALHANDLING', 'JOBSETID', 'CORECOUNT', 'NINPUTDATAFILES',
-    'INPUTFILETYPE', 'INPUTFILEPROJECT', 'INPUTFILEBYTES', 'NOUTPUTDATAFILES', 'OUTPUTFILEBYTES', 'JOBMETRICS',
-    'WORKQUEUE_ID', 'JEDITASKID', 'JOBSUBSTATUS', 'ACTUALCORECOUNT', 'REQID', 'MAXRSS', 'MAXVMEM', 'MAXPSS',
-    'AVGRSS', 'AVGVMEM', 'AVGSWAP', 'AVGPSS', 'MAXWALLTIME', 'NUCLEUS', 'EVENTSERVICE', 'FAILEDATTEMPT', 'HS06SEC', 'HS06', 'GSHARE',
-    'TOTRCHAR', 'TOTWCHAR', 'TOTRBYTES', 'TOTWBYTES', 'RATERCHAR', 'RATEWCHAR', 'RATERBYTES', 'RATEWBYTES',
-    'PILOTTIMING', 'MEMORY_LEAK', 'RESOURCE_TYPE', 'DISKIO'
-]
-
-escolumns = [
-    'pandaid', 'jobdefinitionid', 'schedulerid', 'pilotid', 'creationtime', 'creationhost', 'modificationtime',
-    'modificationhost', 'atlasrelease', 'transformation', 'homepackage', 'prodserieslabel', 'prodsourcelabel',
-    'produserid', 'assignedpriority', 'currentpriority', 'attemptnr', 'maxattempt', 'jobstatus', 'jobname',
-    'maxcpucount', 'maxdiskcount', 'minramcount',
-    'starttime', 'endtime', 'cpuconsumptiontime', 'cpuconsumptionunit', 'commandtopilot', 'transexitcode',
-    'piloterrorcode', 'piloterrordiag', 'exeerrorcode', 'exeerrordiag', 'superrorcode', 'superrordiag',
-    'ddmerrorcode', 'ddmerrordiag', 'brokerageerrorcode', 'brokerageerrordiag', 'jobdispatchererrorcode',
-    'jobdispatchererrordiag', 'taskbuffererrorcode', 'taskbuffererrordiag', 'computingsite', 'computingelement',
-    'proddblock', 'dispatchdblock', 'destinationdblock', 'destinationse', 'nevents', 'grid', 'cloud', 'cpuconversion',
-    'sourcesite', 'destinationsite', 'transfertype', 'taskid', 'cmtconfig', 'statechangetime',
-    'lockedby', 'relocationflag', 'jobexecutionid', 'vo', 'workinggroup', 'processingtype', 'produsername',
-    'countrygroup', 'batchid', 'parentid', 'specialhandling', 'jobsetid', 'corecount', 'ninputdatafiles',
-    'inputfiletype', 'inputfileproject', 'inputfilebytes', 'noutputdatafiles', 'outputfilebytes', 'jobmetrics',
-    'workqueue_id', 'jeditaskid', 'jobsubstatus', 'actualcorecount', 'reqid', 'maxrss', 'maxvmem', 'maxpss',
-    'avgrss', 'avgvmem', 'avgswap', 'avgpss', 'maxwalltime', 'nucleus', 'eventservice', 'failedattempt', 'hs06sec', 'hs06', 'gShare',
-    'IOcharRead', 'IOcharWritten', 'IObytesRead', 'IObytesWritten', 'IOcharReadRate', 'IOcharWriteRate', 'IObytesReadRate', 'IObytesWriteRate',
-    'pilottiming', 'memory_leak', 'resource_type', 'diskio'
+    'PANDAID', 'TASKID', 'CTIME', 'MTIME', 
+    'TASKNAME', 'TASKTYPE', 'STATUS', 'NDONE', 'NTOTAL',
+    'TASKTRANSINFO', 'PARTID', 'FILLSTATUS', 'TASKPARS', 'USERNAME',
+    'NEVENTS', 'TASKINFO', 'CREATOR', 'CREATOR2', 'RUNNR',
+    'PROJECT', 'STREAMTYPE', 'STREAM', 'INPUTDATASETFK', 'INPUTDATASETNAME'
 ]
 
 sel = 'SELECT '
 sel += ','.join(columns)
-sel += ' FROM ATLAS_PANDA.JOBSARCHIVED4 '
-# sel += 'WHERE PANDAID=4225560422'
-sel += "WHERE STATECHANGETIME >= TO_DATE('" + start_date + \
-    "','YYYY - MM - DD HH24: MI: SS') AND STATECHANGETIME < TO_DATE('" + end_date + "','YYYY - MM - DD HH24: MI: SS') "
+sel += ' FROM TASKS '
+sel += "WHERE MTIME >= TO_DATE('" + start_date + \
+    "','YYYY - MM - DD HH24: MI: SS') AND MTIME < TO_DATE('" + end_date + "','YYYY - MM - DD HH24: MI: SS') "
 
-# print(sel)
+print(sel)
+
+#not_stored_anymore = ['MAXCPUUNIT', 'MAXDISKUNIT', 'IPCONNECTIVITY', 'MINRAMUNIT', 'PRODDBUPDATETIME', 'NINPUTFILES']
+#print('omitting columns:', not_stored_anymore)
+# escolumns = [
+#     'pandaid',
+# ]
+
 
 cursor.execute(sel)
 
@@ -89,29 +63,16 @@ data = []
 count = 0
 for row in cursor:
     doc = {}
-    for colName, colValue in zip(escolumns, row):
+    for colName, colValue in zip(columns, row):
         # print(colName, colValue)
         doc[colName] = colValue
 
-    if doc['creationtime']:
-        doc['creationtime'] = str(doc['creationtime']).replace(' ', 'T')
-    if doc['modificationtime']:
-        doc['modificationtime'] = str(doc['modificationtime']).replace(' ', 'T')
-    if doc['starttime']:
-        doc['starttime'] = str(doc['starttime']).replace(' ', 'T')
-    if doc['endtime']:
-        doc['endtime'] = str(doc['endtime']).replace(' ', 'T')
-    doc['cpuconsumptiontime'] = int(doc['cpuconsumptiontime'])
-    if doc['statechangetime']:
-        doc['statechangetime'] = str(doc['statechangetime']).replace(' ', 'T')
-
-    # (doc['dbTime'], doc['dbData'], doc['workDirSize'], doc['jobmetrics']) = conversions.splitJobmetrics(doc['jobmetrics'])
-    # (doc['wall_time'], doc['cpu_eff'], doc['queue_time']) = conversions.deriveDurationAndCPUeff(
-        # doc['creationtime'], doc['starttime'], doc['endtime'], doc['cpuconsumptiontime'])
-    # (doc['timeGetJob'], doc['timeStageIn'], doc['timeExe'], doc['timeStageOut'],
-    #  doc['timeSetup']) = conversions.deriveTimes(doc['pilottiming'])
-    doc["_index"] = "tier0_write"
-    doc["_id"] = doc['pandaid']
+    if doc['CTIME']:
+        doc['CTIME'] = str(doc['CTIME']).replace(' ', 'T')
+    if doc['MTIME']:
+        doc['MTIME'] = str(doc['MTIME']).replace(' ', 'T')
+    doc["_index"] = "t0_tasks"
+    doc["_id"] = doc['TASKID']
 
     data.append(doc)
     # print(doc)
