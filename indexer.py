@@ -33,7 +33,7 @@ cursor = con.cursor()
 
 
 columns = [
-    'PANDAID', 'TASKID', 'CTIME', 'MTIME', 
+    'TASKID', 'CTIME', 'MTIME', 
     'TASKNAME', 'TASKTYPE', 'STATUS', 'NDONE', 'NTOTAL',
     'TASKTRANSINFO', 'PARTID', 'FILLSTATUS', 'TASKPARS', 'USERNAME',
     'NEVENTS', 'TASKINFO', 'CREATOR', 'CREATOR2', 'RUNNR',

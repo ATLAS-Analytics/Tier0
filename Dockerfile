@@ -4,6 +4,8 @@ LABEL maintainer Ilija Vukotic <ivukotic@cern.ch>
 
 WORKDIR /home/analyticssvc
 
+USER root
+
 COPY *.py /home/analyticssvc/
 COPY run.sh /
 
