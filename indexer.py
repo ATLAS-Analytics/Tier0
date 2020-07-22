@@ -67,6 +67,9 @@ for row in cursor:
         doc['CTIME'] = str(doc['CTIME']).replace(' ', 'T')
     if doc['MTIME']:
         doc['MTIME'] = str(doc['MTIME']).replace(' ', 'T')
+   
+    doc["TASKINFO"]=doc["TASKINFO"].replace('True','true')
+   
     doc["_index"] = "t0_tasks"
     doc["pipeline"] = "t0_tasks"
     doc["_id"] = doc['TASKID']
