@@ -68,6 +68,7 @@ for row in cursor:
     if doc['MTIME']:
         doc['MTIME'] = str(doc['MTIME']).replace(' ', 'T')
     doc["_index"] = "t0_tasks"
+    doc["pipeline"] = "t0_tasks"
     doc["_id"] = doc['TASKID']
 
     data.append(doc)
