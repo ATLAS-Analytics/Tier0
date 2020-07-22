@@ -36,16 +36,25 @@ print(con.version)
 cursor = con.cursor()
 
 columns = [
-    'TASKID', 'CTIME', 'MTIME', 
-    'TASKNAME', 'TASKTYPE', 'STATUS', 'NDONE', 'NTOTAL',
-    'TASKTRANSINFO', 'PARTID', 'FILLSTATUS', 'TASKPARS', 'USERNAME',
-    'NEVENTS', 'TASKINFO', 'CREATOR', 'CREATOR2', 'RUNNR',
-    'PROJECT', 'STREAMTYPE', 'STREAM', 'INPUTDATASETFK', 'INPUTDATASETNAME'
+    'JOBID', 'TASKFK', 'CTIME', 'MTIME', 
+    'JOBNAME', 'PARTNR', 'CONTROLSTATUS', 'CURRENTSTATUS',
+    'SUPERVISOR', 'LASTATTEMPT', 'MAXATTEMPT', 'PRIORITY', 'JOBLOGS',
+    'JOBPARS', 'LOCKEDBY', 'TRANSINFO', 'USERNAME', 'INPUTEVENTS',
+    'CONTROLPARAMS'
 ]
+
+escolumns = [
+    'JOBID', 'TASKID', 'CTIME', 'MTIME', 
+    'JOBNAME', 'PARTNR', 'CONTROLSTATUS', 'CURRENTSTATUS',
+    'SUPERVISOR', 'LASTATTEMPT', 'MAXATTEMPT', 'PRIORITY', 'JOBLOGS',
+    'JOBPARS', 'LOCKEDBY', 'TRANSINFO', 'USERNAME', 'INPUTEVENTS',
+    'CONTROLPARAMS'
+]
+
 
 sel = 'SELECT '
 sel += ','.join(columns)
-sel += ' FROM TASKS '
+sel += ' FROM JOBS '
 sel += "WHERE MTIME >= TO_DATE('" + start_date + \
     "','YYYY - MM - DD HH24: MI: SS') AND MTIME < TO_DATE('" + end_date + "','YYYY - MM - DD HH24: MI: SS') "
 
@@ -59,7 +68,7 @@ data = []
 count = 0
 for row in cursor:
     doc = {}
-    for colName, colValue in zip(columns, row):
+    for colName, colValue in zip(escolumns, row):
         # print(colName, colValue)
         doc[colName] = colValue
 
@@ -67,8 +76,8 @@ for row in cursor:
         doc['CTIME'] = str(doc['CTIME']).replace(' ', 'T')
     if doc['MTIME']:
         doc['MTIME'] = str(doc['MTIME']).replace(' ', 'T')
-    doc["_index"] = "t0_tasks"
-    doc["_id"] = doc['TASKID']
+    doc["_index"] = "t0_jobs"
+    doc["_id"] = doc['JOBID']
 
     data.append(doc)
     # print(doc)
